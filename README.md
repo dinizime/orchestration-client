@@ -12,5 +12,6 @@ A simple implementation of a Workflow builder in Angular.js that can build, exec
 * [Angular Route](https://docs.angularjs.org/api/ngRoute) - MIT License 
 * [Normalize CSS](https://github.com/necolas/normalize.css/) - MIT License
 * [Katex](https://github.com/Khan/KaTeX) - MIT License
+* [Angular Katex](https://github.com/tfoxy/angular-katex) - MIT License
 * [tsort](https://gist.github.com/shinout/1232505) - Apache License
 * [Prettify JSON](http://jsfiddle.net/KSTe8/)
