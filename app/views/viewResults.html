@@ -1,0 +1,24 @@
+<div class="modal-header">
+    <h3 class="modal-title">Results</h3>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal" role="form" name="newFeatureForm">
+        <div ng-repeat="(key,value) in results">
+            <div class="form-group" ng-repeat="(innerKey,innerValue) in value">
+                <label class="control-label col-sm-3">{{key}} - {{innerKey}}</label>
+                <div class="col-sm-7">
+                    <a href="{{innerValue}}" target="_blank" class="form-control-static">{{innerValue}}</a>
+                </div>
+                <span class="input-group-btn col-sm-2" ng-if="isWPS(key)">
+                    <button class="btn btn-default" type="button" ng-click="addResult(key,value)">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    </button>
+                </span>
+
+            </div>
+        </div>
+    </form>
+    <div class="modal-footer">
+        <button class="btn btn-default" type="button" ng-click="cancel()">OK</button>
+    </div>
+</div>

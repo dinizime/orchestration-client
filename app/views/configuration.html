@@ -1,0 +1,115 @@
+<div class="modal-header">
+    <h3 class="modal-title">Configuration</h3>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal" role="form" name="configurationForm" novalidate>
+        <div class="form-group">
+            <label class="control-label col-sm-2">Service Catalogues</label>
+            <div class="col-sm-10">
+                <div ng-repeat="csw in services.csw track by $index">
+                    <div style="padding-top: 5px;" class="input-group" ng-class="{ 'has-error': configurationForm['services'+$index].$touched && configurationForm['services'+$index].$invalid }">
+                        <input type="url" ng-attr-name="{{'services'+$index}}" class="form-control" placeholder="Services URL" ng-model="services.csw[$index]">
+                        <span class="input-group-btn">
+							<button class="btn btn-default" type="button" ng-click="addCsw($index, csw)">
+								<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        </button>
+                        </span>
+                        <span class="input-group-btn">
+							<button class="btn btn-default" type="button" ng-click="removeCsw($index)" ng-disabled="services.csw.length == 1">
+								<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                        </button>
+                        </span>
+                    </div>
+                    <div ng-messages="configurationForm['services'+$index].$error" ng-if="configurationForm['services'+$index].$touched">
+                        <p style="color: red" ng-message="url">This field needs to be a valid URL</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2">Workflow Catalogues</label>
+            <div class="col-sm-10">
+                <div ng-repeat="flowLibrary in services.flowLibrary track by $index">
+					<div style="padding-top: 5px; " class="input-group " ng-class="{ 'has-error': configurationForm[ 'flows'+$index].$touched && configurationForm[ 'flows'+$index].$invalid } ">
+					<input type="url " ng-attr-name="{{ 'flows'+$index}} "  class="form-control " placeholder="Workflow Catalogue URL " ng-model="services.flowLibrary[$index] ">
+					<span class="input-group-btn ">
+        				<button class="btn btn-default " type="button " ng-click="addFlowLibrary() ">
+							<span class="glyphicon glyphicon-plus " aria-hidden="true "></span>
+						</button>
+     				 </span>
+					<span class="input-group-btn ">
+        				<button class="btn btn-default " type="button " ng-click="removeFlowLibrary($index) " ng-disabled="services.flowLibrary.length==1 ">
+							<span class="glyphicon glyphicon-minus " aria-hidden="true "></span>
+						</button>
+     				 </span>
+					  </div>
+					<div ng-messages="configurationForm[ 'flows'+$index].$error " ng-if="configurationForm[ 'flows'+$index].$touched ">
+						<p style="color: red " ng-message="url ">This field needs to be a valid URL</p>
+					</div>
+				</div>
+			</div>
+		</div>
+        <div class="form-group">
+            <label class="control-label col-sm-2">Parametric Workflow Catalogues</label>
+            <div class="col-sm-10">
+                <div ng-repeat="paramflowLibrary in services.paramflowLibrary track by $index">
+					<div style="padding-top: 5px; " class="input-group " ng-class="{ 'has-error': configurationForm[ 'paramflows'+$index].$touched && configurationForm[ 'paramflows'+$index].$invalid } ">
+					<input type="url " ng-attr-name="{{ 'paramflows'+$index}} "  class="form-control " placeholder="Parametric Workflow Catalogue URL " ng-model="services.paramflowLibrary[$index] ">
+					<span class="input-group-btn ">
+        				<button class="btn btn-default " type="button" ng-click="addParamFlowLibrary() ">
+							<span class="glyphicon glyphicon-plus " aria-hidden="true "></span>
+						</button>
+     				 </span>
+					<span class="input-group-btn ">
+        				<button class="btn btn-default " type="button" ng-click="removeParamFlowLibrary($index) " ng-disabled="services.paramflowLibrary.length==1 ">
+							<span class="glyphicon glyphicon-minus " aria-hidden="true "></span>
+						</button>
+     				 </span>
+					  </div>
+					<div ng-messages="configurationForm[ 'paramflows'+$index].$error " ng-if="configurationForm[ 'paramflows'+$index].$touched ">
+						<p style="color: red " ng-message="url ">This field needs to be a valid URL</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group ">
+			<label class="control-label col-sm-2 ">Orchestration Engine</label>
+			<div class="col-sm-10 ">
+				<div ng-class="{ 'has-error': configurationForm.orchestration.$touched && configurationForm.orchestration.$invalid } ">
+					<input type="url " class="form-control " name="orchestration " placeholder="Orchestration WPS URL " ng-model="configuration.orchestrationUrl ">
+				</div>
+				<div ng-messages="configurationForm.orchestration.$error " ng-if="configurationForm.orchestration.$touched ">
+					<p style="color: red " ng-message="url ">This field needs to be a valid URL</p>
+				</div>
+			</div>
+		</div>
+		<div class="form-group ">
+			<label class="control-label col-sm-2 ">Verification Engine</label>
+			<div class="col-sm-10 ">
+				<div ng-class="{ 'has-error': configurationForm.verification.$touched && configurationForm.verification.$invalid } ">
+					<input type="url " class="form-control " name="verification " placeholder="Verification WPS URL " ng-model="configuration.verificationUrl ">
+				</div>
+				<div ng-messages="configurationForm.verification.$error " ng-if="configurationForm.verification.$touched ">
+					<p style="color: red " ng-message="url ">This field needs to be a valid URL</p>
+				</div>
+			</div>
+		</div>
+		<div class="form-group ">
+			<label class="control-label col-sm-2 ">Time between requests</label>
+			<div class="col-sm-10 ">
+				<div ng-class="{ 'has-error': configurationForm.timeRequest.$touched && configurationForm.timeRequest.$invalid } ">
+				<input type="number " min="1000 " name = "timeRequest " class="form-control " placeholder="Number of miliseconds between requests " ng-model="configuration.timeRequest ">
+				</div>
+				<div ng-messages="configurationForm.timeRequest.$error " ng-if="configurationForm.timeRequest.$touched ">
+					<p style="color: red " ng-message="number ">Time between requests should be a number</p>
+					<p style="color: red " ng-message="min ">Time between requests should be at least 1000ms</p>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<div class="modal-footer ">
+		<button class="btn btn-primary " ng-disabled="configurationForm.$invalid " type="button " ng-click="changeConfig() ">OK</button>
+		<button class="btn btn-default " type="button " ng-click="cancel() ">Cancel</button>
+	</div>
+</div>

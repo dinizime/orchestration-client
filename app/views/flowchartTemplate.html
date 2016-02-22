@@ -1,0 +1,54 @@
+<svg id="svgFrame" version="1.1" baseProfile="full" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" ng-mousedown="elementMouseDown($event, null)" ng-keyup="keySelected($event)" tabindex="1" ng-mouseup="mouseUp()" ng-mousemove="mouseMove($event)">
+    <g id="svgArea" tabindex="1" style="outline: none;">
+        <g ng-repeat="task in data.tasks | orderBy:'style.zIndex' track by $index">
+            <g ng-if="task.type === 'WFS' || task.type === 'WPS' || task.type === 'Input Parameter' || task.type === 'Output Parameter'
+             || task.type === 'Subgraph'">
+                <g ng-mousedown="elementMouseDown($event, task)">
+                    <rect ng-attr-x="{{task.style.x}}" ng-attr-y="{{task.style.y}}" ng-attr-rx="{{taskRx}}" ng-attr-ry="{{taskRy}}" ng-attr-width="{{taskWidth}}" ng-attr-height="{{taskHeight}}" ng-class="setTaskClass(task)" ng-mouseover="task.style.hover = true" ng-mouseleave="task.style.hover = false" />
+                    <text ng-attr-x="{{task.style.x + taskWidth/2}}" ng-attr-y="{{task.style.y + taskHeight/2}}" text-anchor="middle" alignment-baseline="central" class="nonSelectableText">{{task.name}}</text>
+                </g>
+                <g ng-if="isSelected(task)" style="cursor: pointer;" ng-attr-transform="translate({{task.style.x + taskWidth + 4}},{{task.style.y + 5}}) scale(0.025)" ng-mousedown="editTask(task)" ng-include="'../../icons/settings.svg'">
+                </g>
+                <g ng-if="isSelected(task)" style="cursor: pointer;" ng-attr-transform="translate({{task.style.x + taskWidth + 4}},{{task.style.y + 40}}) scale(0.025)" ng-mousedown="deleteSelected($event)" ng-include="'../../icons/delete.svg'">
+                </g>
+                <g ng-if="hasError(task, 'tasks')" style="fill: darkred; cursor: pointer;" ng-attr-transform="translate({{task.style.x+5}},{{task.style.y+5}}) scale(0.7)" ng-mousedown="showErrorInfo(task, 'tasks')" ng-include="'../../icons/info.svg'">
+                </g>
+                <g ng-repeat="input in task.inputs track by $index">
+                    <circle ng-attr-cx="{{task.style.x+ ($index+1)*taskWidth/(1+task.inputs.length)}}" ng-attr-cy="{{task.style.y}}" ng-attr-r="{{circleR}}" ng-class="setConnectionClass(task, $index, 'Input')" ng-mousedown="createFlow($event, task, $index, 'Input')" ng-mouseover="ioMouseover(task,$index,input,'Input')" ng-mouseleave="ioMouseleave()" />
+                    <text ng-attr-x="{{task.style.x+ ($index+1)*taskWidth/(1+task.inputs.length)}}" ng-attr-y="{{task.style.y - circleR - textDistance}}" alignment-baseline="central" ng-attr-text-anchor="{{setAnchor($index,task.inputs.length)}}" class="nonSelectableText">{{input}}</text>
+                </g>
+                <g ng-repeat="output in task.outputs track by $index">
+                    <circle ng-attr-cx="{{task.style.x+ ($index+1)*taskWidth/(1+task.outputs.length)}}" ng-attr-cy="{{task.style.y + taskHeight}}" ng-attr-r="{{circleR}}" ng-class="setConnectionClass(task, $index, 'Output')" ng-mousedown="createFlow($event, task, $index, 'Output')" ng-mouseover="ioMouseover(task,$index,output,'Output')" ng-mouseleave="ioMouseleave()" />
+                    <text ng-attr-x="{{task.style.x+ ($index+1)*taskWidth/(1+task.outputs.length)}}" ng-attr-y="{{task.style.y+ taskHeight + circleR + textDistance}}" alignment-baseline="central" ng-attr-text-anchor="{{setAnchor($index,task.outputs.length)}}" class="nonSelectableText">{{output}}</text>
+                </g>
+            </g>
+            <g ng-if="task.type === 'Literal'">
+                <g ng-mousedown="elementMouseDown($event, task)">
+                    <rect ng-attr-x="{{task.style.x}}" ng-attr-y="{{task.style.y}}" ng-attr-width="{{taskWidth}}" ng-attr-height="{{taskHeight}}" ng-class="setTaskClass(task)" ng-mouseover="task.style.hover = true" ng-mouseleave="task.style.hover = false" />
+                    <text ng-attr-x="{{task.style.x + taskWidth/2}}" ng-attr-y="{{task.style.y + taskHeight/2}}" text-anchor="middle" alignment-baseline="central" class="nonSelectableText">{{task.value}}</text>
+                </g>
+                <circle ng-attr-cx="{{task.style.x+ taskWidth/2}}" ng-attr-cy="{{task.style.y + taskHeight}}" ng-attr-r="{{circleR}}" ng-class="setConnectionClass(task, 0, 'Output')" ng-mousedown="createFlow($event, task, 0, 'Output')" ng-mouseover="ioMouseover(task,0,'literal','Output')" ng-mouseleave="ioMouseleave()" />
+                <g ng-if="isSelected(task)" style="cursor: pointer;" ng-attr-transform="translate({{task.style.x + taskWidth + 4}},{{task.style.y + 5}}) scale(0.025)" ng-mousedown="editLiteral(task)" ng-include="'../../icons/settings.svg'">
+                </g>
+                <g ng-if="isSelected(task)" style="cursor: pointer;" ng-attr-transform="translate({{task.style.x + taskWidth + 4}},{{task.style.y + 40}}) scale(0.025)" ng-mousedown="deleteSelected($event)" ng-include="'../../icons/delete.svg'">
+                </g>
+                <g ng-if="hasError(task, 'tasks')" style="fill: darkred; cursor: pointer;" ng-attr-transform="translate({{task.style.x+5}},{{task.style.y+5}}) scale(0.7)" ng-mousedown="showErrorInfo(task, 'tasks')" ng-include="'../../icons/info.svg'">
+                </g>
+            </g>
+        </g>
+        <g ng-repeat="flow in data.sequenceFlows track by $index">
+            <line ng-attr-x1="{{flow.style.source.x}}" ng-attr-x2="{{flow.style.dest.x}}" ng-attr-y1="{{flow.style.source.y}}" ng-attr-y2="{{flow.style.dest.y}}" ng-mousedown="elementMouseDown($event, flow)" ng-class="setFlowlineClass(flow)" ng-mouseover="flow.style.hover = true" ng-mouseleave="flow.style.hover = false" />
+            <g ng-if="hasError(flow, 'sequenceFlows')" style="fill: darkred; cursor: pointer;" ng-attr-transform="translate({{flow.style.source.x/2+flow.style.dest.x/2-10.33725}},{{flow.style.source.y/2+flow.style.dest.y/2-10.33725}}) scale(0.7)" ng-mousedown="showErrorInfo(flow, 'sequenceFlows')" ng-include="'../../icons/info.svg'">
+            </g>
+            <g ng-if="isSelected(flow)">
+                <rect ng-attr-x="{{flow.style.source.x - circleR/2}}" ng-attr-y="{{flow.style.source.y - circleR/2}}" ng-attr-width="{{circleR}}" ng-attr-height="{{circleR}}" style="fill: #707070" />
+                <rect ng-attr-x="{{flow.style.dest.x - circleR/2}}" ng-attr-y="{{flow.style.dest.y - circleR/2}}" ng-attr-width="{{circleR}}" ng-attr-height="{{circleR}}" style="fill: #707070" />
+                <rect ng-attr-x="{{flow.style.source.x - circleR}}" ng-attr-y="{{flow.style.source.y - circleR}}" ng-attr-width="{{2*circleR}}" ng-attr-height="{{2*circleR}}" ng-mousedown="changeConnection($event, flow, 'source')" style="fill: #707070" fill-opacity="0" />
+                <rect ng-attr-x="{{flow.style.dest.x - circleR}}" ng-attr-y="{{flow.style.dest.y - circleR}}" ng-attr-width="{{2*circleR}}" ng-attr-height="{{2*circleR}}" ng-mousedown="changeConnection($event, flow, 'dest')" style="fill: #707070" fill-opacity="0" />
+            </g>
+        </g>
+        <g ng-if="isCreating">
+            <line ng-attr-x1="{{auxLine.start.x}}" ng-attr-x2="{{auxLine.end.x}}" ng-attr-y1="{{auxLine.start.y}}" ng-attr-y2="{{auxLine.end.y}}" class="lineConnection" style="pointer-events: none;" />
+        </g>
+    </g>
+</svg>

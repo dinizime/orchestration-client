@@ -1,0 +1,156 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    background-color: #F3F3F4;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {    
+    font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 700;
+}
+
+pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }
+.string { color: green; }
+.number { color: darkorange; }
+.boolean { color: blue; }
+.null { color: magenta; }
+.key { color: red; }
+
+.task {
+	stroke: darkgrey;
+	stroke-width: 1.5;
+	fill: white;
+}
+
+.task-subgraph {
+	stroke: darkgrey;
+	stroke-width: 1.5;
+	stroke-dasharray: 20,10,5,5,5,10;
+	fill: white;
+}
+
+.task-parameter {
+	stroke: darkgrey;
+	stroke-width: 1.5;
+	stroke-dasharray: 5,5;
+	fill: white;
+}
+
+.task-hover {
+	stroke-width: 3;
+}
+
+.task-selected {
+	stroke: black;
+	stroke-width: 3.5;
+    cursor: move;
+}
+
+.task-running {
+	stroke: darkorange;
+	stroke-width: 3;
+}
+
+.task-failed {
+	stroke: darkred;
+	stroke-width: 3;
+}
+
+.task-succeeded {
+	stroke: darkgreen;
+	stroke-width: 3;
+}
+.lineConnection-failed {
+	stroke: darkred;
+	stroke-width: 3;
+	fill: transparent;
+}
+
+.lineConnection {
+	stroke: darkgrey;
+	stroke-width: 1;
+	fill: transparent;
+}
+
+.lineConnection-hover {
+	stroke: slategrey;
+	stroke-width: 5;
+	fill: transparent;
+}
+
+.lineConnection-selected {
+	stroke: black;
+	stroke-width: 5;
+	fill: transparent;
+}	
+
+.connection {
+	stroke: darkgrey;
+	stroke-width: 1.5;
+	fill: white;
+	cursor: crosshair;
+}
+
+.connection-creating {
+	stroke: red;
+	stroke-width: 3;
+	fill: white;
+}
+
+
+.connection-hover {
+	stroke: slategrey;
+	stroke-width: 1.5;
+	fill: slategrey;
+	cursor: crosshair;
+}
+
+svg:focus {
+    outline: none;
+}
+
+.nonSelectableText {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+    user-select: none;	
+    pointer-events: none;
+}
+
+.glyphicon { 
+	margin-right:5px; 
+}
+.glyphicon-menu{
+	margin-left:10px; 
+}
+.glyphicon-solo { 
+	margin-right:0px; 
+}
+
+.alert {
+	margin-bottom: 0px;
+}
+.list-group {
+	margin-bottom: 0px;
+}
+
+
+/* enable absolute positioning */
+.inner-addon { 
+    position: relative; 
+}
+/* style icon */
+.inner-addon .glyphicon {
+  position: absolute;
+  padding: 10px;
+  padding-left: 20px;
+  pointer-events: none;
+}
+/* align icon */
+.left-addon .glyphicon  { left:  0px;}

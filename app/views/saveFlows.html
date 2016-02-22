@@ -1,0 +1,42 @@
+<div class="modal-header">
+    <h3 class="modal-title">Save Workflow</h3>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal" role="form" name="newFeatureForm">
+        <div class="form-group">
+            <label class="control-label col-sm-2">Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" placeholder="Value" ng-model="name" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2">Description</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" placeholder="Value" ng-model="description" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2">Parametric Workflow</label>
+            <div class="col-sm-10">
+              <label>
+                <input type="radio" ng-model="newflow.parametric" value="true" ng-change="changeParametric()">
+                Yes
+              </label><br/>
+              <label>
+                <input type="radio" ng-model="newflow.parametric" value="false" ng-checked="true" ng-change="changeParametric()">
+                No
+              </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2">Workflow CSW</label>
+            <div class="col-sm-10">
+                <select ng-model="url" ng-options="item for item in availableURL" required></select>
+            </div>
+        </div>
+    </form>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-disabled="newFeatureForm.$invalid" type="button" ng-click="save()">Save</button>
+        <button class="btn btn-default" type="button" ng-click="cancel()">Cancel</button>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+<div class="modal-header">
+    <h3 class="modal-title">Load flow from library</h3>
+</div>
+<div class="modal-body">
+    <div class="list-group">
+      <a style= "cursor: pointer" class="list-group-item" ng-repeat="flow in flows track by $index" ng-click="load($index)">
+        <h4 class="list-group-item-heading">{{flow.metadata.name}}</h4>
+        <p class="list-group-item-text">{{flow.metadata.description}}</p>
+      </a>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-default" type="button" ng-click="cancel()">Cancel</button>
+    </div>
+</div>

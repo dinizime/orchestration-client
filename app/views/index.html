@@ -1,0 +1,96 @@
+<div class="navbar navbar-default">
+    <a class="navbar-brand text-muted nonSelectableText">Orchestration Engine UI</a>
+    <ul class="nav nav-pills">
+        <li class="pull-right" style="padding-right: 10px; padding-top: 5px;">
+            <button type="button" class="btn btn-default" ng-disabled="isExecuting.value" ng-class="{disabled: isExecuting.value}" ng-click="openConfiguration()">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Configuration
+            </button>
+        </li>
+    </ul>
+</div>
+<div style="width:100%; height:90%" class="row">
+    <div class="col-sm-2 sidebar list-group" id="sideMenu" style="height:100%;">
+        <div class="inner-addon left-addon">
+            <i class="glyphicon glyphicon-search"></i>
+            <input type="text" ng-model="searchText.name" style="padding-left:40px" class="form-control" placeholder="Search by layer name">
+        </div>
+        <div style="height:90%; overflow-y: scroll; overflow-x:hidden;">
+            <button type="button" class="list-group-item active" style="margin-top:5px" ng-init="showDataLayers = false" ng-click="showDataLayers = !showDataLayers">
+                <span class="glyphicon glyphicon-map-marker glyphicon-menu" aria-hidden="true"></span> Data Layers <span class="badge">{{dataFiltered.length}}</span>
+            </button>
+            <button ng-repeat="layer in dataFiltered = (availableLayers.data | filter: searchText) track by layer.name" ng-if="showDataLayers" type="button" class="list-group-item" ng-click="addLayer(layer)">
+                <span style="margin-left:40px;">{{layer.name}}</span>
+            </button>
+            <button type="button" class="list-group-item active " style="margin-top:5px" ng-init="showProcessLayers = false" ng-click="showProcessLayers = !showProcessLayers">
+                <span class="glyphicon glyphicon-wrench glyphicon-menu" aria-hidden="true"></span> Process Layers <span class="badge">{{processFiltered.length}}</span>
+            </button>
+            <button ng-repeat="process in processFiltered = (availableLayers.processes | filter: searchText) track by process.name" ng-if="showProcessLayers" type="button" class="list-group-item" ng-click="addLayer(process)">
+                <span style="margin-left:40px;">{{process.name}}</span>
+            </button>
+            <button type="button" class="list-group-item active " style="margin-top:5px" ng-init="showAuxLayers = false" ng-click="showAuxLayers = !showAuxLayers">
+                <span class="glyphicon glyphicon-cog glyphicon-menu" aria-hidden="true"></span> Auxiliary Layers <span class="badge">{{auxFiltered.length}}</span>
+            </button>
+            <button ng-repeat="aux in auxFiltered = (availableLayers.aux | filter: searchText) track by aux.name" ng-if="showAuxLayers" type="button" class="list-group-item" ng-click="addLayer(aux)">
+                <span style="margin-left:40px;">{{aux.name}}</span>
+            </button>
+        </div>
+    </div>
+    <div class="col-sm-10" style="height:100%; min-height: 100%;">
+        <div id="topMenu">
+            <ul class="nav nav-pills">
+                <li role="presentation" ng-class="{active: flowTab('workflow')}" ng-click="changeFlowTab('workflow')"><a class="nonSelectableText">Workflow</a></li>
+                <li role="presentation" ng-class="{active: flowTab('jsonw')}" ng-click="changeFlowTab('jsonw')"><a class="nonSelectableText">JSON-W</a></li>
+                <li class="pull-right">
+                    <button type="button" class="btn btn-primary" ng-disabled="canExecute()" ng-click="execute()">
+                        <span class="glyphicon glyphicon-random" aria-hidden="true"></span> Execute
+                    </button>
+                </li>
+                <li class="pull-right">
+                    <button type="button" class="btn btn-primary" ng-disabled="canVerify()" ng-click="verify()">
+                        <span class="glyphicon glyphicon-check" aria-hidden="true"></span> Verify
+                    </button>
+                </li>
+                <li class="pull-right">
+                    <button type="button" class="btn btn-primary" ng-disabled="!resultsAvailable.value || isExecuting.value" ng-click="getResults()">
+                        <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> View Results
+                    </button>
+                </li>
+                <li class="pull-right">
+                    <button type="button" class="btn btn-default" ng-disabled="canManage()" ng-click="saveFlows()">
+                        <span class="glyphicon glyphicon-floppy-disk glyphicon-solo" aria-hidden="true"></span>
+                    </button>
+                </li>
+                <li class="pull-right">
+                    <button type="button" class="btn btn-default" ng-disabled="canManage()" ng-click="openFlows()">
+                        <span class="glyphicon glyphicon-folder-open glyphicon-solo" aria-hidden="true"></span>
+                    </button>
+                </li>
+                <li class="pull-right">
+                    <button type="button" class="btn btn-default" ng-disabled="canManage()" ng-click="cleanFlows()">
+                        <span class="glyphicon glyphicon-file glyphicon-solo" aria-hidden="true"></span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <div style="height:80%; overflow-y: scroll; overflow-x:hidden;">
+            <div ng-show="activetab === 'workflow'" ng-style="{height: svgHeight}">
+                <flowchart data="flowData"></flowchart>
+            </div>
+            <div ng-show="activetab === 'jsonw'">
+                <pre>{{flowData | json:4}}</pre>
+            </div>
+        </div>
+        <div id="bottomMenu">
+            <div katex-bind="tooltip"></div><div katex-bind="tooltipProp"></div>
+            <div class="row">
+                <div class="alert" ng-class="info.class">
+                    {{info.message}}
+                    <div class="pull-right">
+                        <a type="button" style="cursor:pointer" ng-show="hasErrors()" ng-click="showErrors()">Show Errors</a>
+                        <a type="button" style="cursor:pointer; margin-left: 15px" ng-show="hasErrors()" ng-click="clearErrors()">Clear Errors</a>
+                    </div>
+                </div>    
+            </div>
+        </div>
+    </div>
+</div>
